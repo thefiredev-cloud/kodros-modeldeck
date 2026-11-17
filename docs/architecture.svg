@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-labelledby="t d">
+<title id="t">ModelDeck architecture</title>
+<desc id="d">A collector probes fleet services into a SQLite history. The loopback server serves the dashboard and passes swap requests through a guard to the existing swap-gate helper.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted, #5c5c66)"/></marker></defs>
+<rect x="20" y="30" width="920" height="150" rx="14" fill="none" stroke="var(--border, #d8d8de)" stroke-width="1" stroke-dasharray="5 4"/>
+<text x="926" y="47" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="var(--muted, #5c5c66)">read path: collector every 30 s</text>
+<rect x="20" y="240" width="920" height="150" rx="14" fill="none" stroke="var(--border, #d8d8de)" stroke-width="1" stroke-dasharray="5 4"/>
+<text x="926" y="257" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="var(--muted, #5c5c66)">swap path: two steps, gated</text>
+<rect x="40" y="60" width="230" height="90" rx="10" fill="var(--surface, #ffffff)" fill-opacity="0.04" stroke="var(--border, #d8d8de)" stroke-width="1.5"/>
+<text x="155.0" y="99.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--fg, #1b1b1f)" font-weight="700">Fleet services</text>
+<text x="155.0" y="119.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--muted, #5c5c66)">HTTP health, SSH probes</text>
+<rect x="365" y="60" width="230" height="90" rx="10" fill="var(--surface, #ffffff)" fill-opacity="0.04" stroke="var(--border, #d8d8de)" stroke-width="1.5"/>
+<text x="480.0" y="99.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--fg, #1b1b1f)" font-weight="700">Collector</text>
+<text x="480.0" y="119.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--muted, #5c5c66)">Store.loop, every 30 s</text>
+<rect x="690" y="60" width="230" height="90" rx="10" fill="var(--surface, #ffffff)" fill-opacity="0.04" stroke="var(--border, #d8d8de)" stroke-width="1.5"/>
+<text x="805.0" y="99.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--fg, #1b1b1f)" font-weight="700">history.sqlite</text>
+<text x="805.0" y="119.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--muted, #5c5c66)">7-day retention, mode 0600</text>
+<rect x="40" y="270" width="230" height="90" rx="10" fill="var(--surface, #ffffff)" fill-opacity="0.04" stroke="var(--border, #d8d8de)" stroke-width="1.5"/>
+<text x="155.0" y="309.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--fg, #1b1b1f)" font-weight="700">ModelDeck server</text>
+<text x="155.0" y="329.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--muted, #5c5c66)">127.0.0.1:8866, UI + /api</text>
+<rect x="365" y="270" width="230" height="90" rx="10" fill="var(--surface, #ffffff)" fill-opacity="0.04" stroke="var(--accent, #c2410c)" stroke-width="2"/>
+<text x="480.0" y="309.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--fg, #1b1b1f)" font-weight="700">SwapGuard</text>
+<text x="480.0" y="329.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--muted, #5c5c66)">ticket, phrase, Jev gate</text>
+<rect x="690" y="270" width="230" height="90" rx="10" fill="var(--surface, #ffffff)" fill-opacity="0.04" stroke="var(--border, #d8d8de)" stroke-width="1.5"/>
+<text x="805.0" y="309.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--fg, #1b1b1f)" font-weight="700">swap-gate helper</text>
+<text x="805.0" y="329.5" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="var(--muted, #5c5c66)">detached modeldeck-swap unit</text>
+<line x1="272" y1="105.0" x2="362" y2="105.0" stroke="var(--muted, #5c5c66)" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="317.0" y="97.0" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="var(--muted, #5c5c66)">probe</text>
+<line x1="597" y1="105.0" x2="687" y2="105.0" stroke="var(--muted, #5c5c66)" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="642.0" y="97.0" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="var(--muted, #5c5c66)">samples</text>
+<path d="M805.0 152 V210 H155.0 V267" fill="none" stroke="var(--muted, #5c5c66)" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="480.0" y="204" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="var(--muted, #5c5c66)">snapshot</text>
+<line x1="272" y1="315.0" x2="362" y2="315.0" stroke="var(--muted, #5c5c66)" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="317.0" y="307.0" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="var(--muted, #5c5c66)">request</text>
+<line x1="597" y1="315.0" x2="687" y2="315.0" stroke="var(--muted, #5c5c66)" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="642.0" y="307.0" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="var(--muted, #5c5c66)">gated</text>
+</svg>

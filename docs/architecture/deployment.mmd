@@ -1,0 +1,18 @@
+flowchart LR
+  fleet{{"Other fleet hosts"}}:::ext
+  subgraph host_ws["Workstation"]
+    srv["python3 -m modeldeck.server<br/>127.0.0.1:8866"]:::app
+    col["Collector thread<br/>every 30 s"]:::job
+    data[("~/.local/share/modeldeck")]:::store
+  end
+  subgraph host_a["Cluster A"]
+    unit["modeldeck-swap-‹id› unit<br/>only after an approved commit"]:::job
+  end
+  srv -->|"starts"| col
+  col -->|"writes"| data
+  col -->|"SSH, HTTP probes"| fleet
+  srv -->|"ssh + systemd-run"| unit
+  classDef app fill:#bfdbfe,stroke:#1d4ed8,color:#0b1220
+  classDef ext fill:#e5e7eb,stroke:#4b5563,color:#0b1220,stroke-dasharray:4 3
+  classDef job fill:#fbcfe8,stroke:#be185d,color:#0b1220
+  classDef store fill:#bbf7d0,stroke:#15803d,color:#0b1220

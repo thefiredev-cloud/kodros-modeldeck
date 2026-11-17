@@ -1,0 +1,21 @@
+sequenceDiagram
+  autonumber
+  actor owner as Owner
+  participant srv as Server
+  participant guard as SwapGuard
+  participant jev as Jev
+  participant clusterA as Cluster A (ssh)
+  owner->>srv: Review swap (profile)
+  srv->>guard: prepare(profile)
+  guard->>guard: fresh evidence, idle, profile eligible
+  guard-->>owner: ticket (60 s) and phrase
+  owner->>srv: type SWAP profile WITH 3.5 MINUTE OUTAGE
+  srv->>guard: commit(ticket, phrase)
+  guard->>jev: safe to submit?
+  alt Jev exit 0
+    guard->>guard: write pending-swap.json (exclusive)
+    guard->>clusterA: systemd-run --user swap-gate swap profile
+    guard-->>owner: 202 submitted, not successful
+  else anything else
+    guard-->>owner: blocked
+  end

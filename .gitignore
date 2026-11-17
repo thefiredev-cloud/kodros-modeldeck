@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.pyc
+.env
+.env.*
+*.sqlite*
+*.log
+.venv/
+node_modules/
+.DS_Store
+.impeccable/review/

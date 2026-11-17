@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ModelDeck
+Comment=Fleet models, memory and guarded cluster swaps
+Exec=/path/to/modeldeck/bin/modeldeck --port 8866
+Icon=/path/to/modeldeck/modeldeck/static/icon.svg
+Terminal=false
+Categories=Development;Utility;
+StartupNotify=false

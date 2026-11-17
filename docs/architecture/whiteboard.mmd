@@ -1,0 +1,19 @@
+flowchart LR
+  owner(["Owner<br/>browser, loopback"]):::actor
+  server["ModelDeck server<br/>127.0.0.1:8866"]:::app
+  collector["Collector<br/>every 30 s"]:::job
+  fleet{{"Fleet services<br/>workstation, cluster A, cluster B, build host, client"}}:::ext
+  db[("History<br/>SQLite, 7 days")]:::store
+  guard["Swap guard<br/>ticket + phrase + Jev"]:::app
+  helper{{"swap-gate on cluster A<br/>existing gated helper"}}:::ext
+  owner -->|"views"| server
+  collector -->|"read-only"| fleet
+  collector -->|"samples"| db
+  server -->|"snapshot"| db
+  owner -->|"swap request"| guard
+  guard -->|"only if gated"| helper
+  classDef actor fill:#fde68a,stroke:#b45309,color:#111827
+  classDef app fill:#bfdbfe,stroke:#1d4ed8,color:#0b1220
+  classDef ext fill:#e5e7eb,stroke:#4b5563,color:#0b1220,stroke-dasharray:4 3
+  classDef job fill:#fbcfe8,stroke:#be185d,color:#0b1220
+  classDef store fill:#bbf7d0,stroke:#15803d,color:#0b1220

@@ -1,0 +1,12 @@
+sequenceDiagram
+  autonumber
+  participant col as Collector
+  participant ad as Adapters
+  participant fleet as Fleet
+  participant db as SQLite
+  col->>ad: collect()
+  ad->>fleet: probe services and hosts (SSH BatchMode)
+  fleet-->>ad: state or offline
+  col->>db: insert sample, delete older than 7 days
+  col->>db: read latest 720 for the chart
+  Note over col: on failure: keep last sample, retry in 30 s

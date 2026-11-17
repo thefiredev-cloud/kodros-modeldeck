@@ -1,0 +1,16 @@
+flowchart LR
+  owner(["Owner (browser on the workstation)"]):::actor
+  SYSTEM["ModelDeck<br/>the system in this repo"]:::app
+  local{{"Workstation services (nvidia-smi, Clef, Jev, phone-fast, STT)"}}:::ext
+  remote{{"Cluster A, cluster B, build host, client (over SSH)"}}:::ext
+  gateway{{"Hermes gateway /v1/cluster/profiles"}}:::ext
+  jev{{"Jev decision gate"}}:::ext
+  owner -->|"views, requests swap"| SYSTEM
+  SYSTEM -->|"HTTP, nvidia-smi"| local
+  SYSTEM -->|"SSH probe"| remote
+  SYSTEM -->|"profiles"| gateway
+  SYSTEM -->|"jev if ... --state -"| jev
+  SYSTEM -->|"swap-gate via systemd-run on cluster A"| remote
+  classDef actor fill:#fde68a,stroke:#b45309,color:#111827
+  classDef app fill:#bfdbfe,stroke:#1d4ed8,color:#0b1220
+  classDef ext fill:#e5e7eb,stroke:#4b5563,color:#0b1220,stroke-dasharray:4 3

@@ -1,0 +1,12 @@
+stateDiagram-v2
+  direction LR
+  [*] --> Idle
+  Idle --> Ticketed: prepare, 60 s ticket
+  Ticketed --> Idle: ticket expires or phrase wrong
+  Ticketed --> Blocked: Jev not yes
+  Blocked --> Idle
+  Ticketed --> Admitted: pending-swap.json written
+  Admitted --> Running: swap-gate unit started
+  Admitted --> Unknown: transport timeout
+  Running --> Idle: terminal result and controller idle
+  Unknown --> Idle: operator inspects, matching job terminal

@@ -1,0 +1,18 @@
+flowchart LR
+  fleet{{"Fleet probes"}}:::ext
+  col["Collector"]:::job
+  mem[("Snapshot + CSRF")]:::store
+  db[("history.sqlite")]:::store
+  ui["Browser UI"]:::app
+  guard["Swap guard"]:::app
+  pend[("pending-swap.json")]:::store
+  fleet -->|"read-only"| col
+  col -->|"latest"| mem
+  col -->|"samples"| db
+  mem -->|"/api/state"| ui
+  ui -->|"ticket, phrase"| guard
+  guard -->|"admission"| pend
+  classDef app fill:#bfdbfe,stroke:#1d4ed8,color:#0b1220
+  classDef ext fill:#e5e7eb,stroke:#4b5563,color:#0b1220,stroke-dasharray:4 3
+  classDef job fill:#fbcfe8,stroke:#be185d,color:#0b1220
+  classDef store fill:#bbf7d0,stroke:#15803d,color:#0b1220
