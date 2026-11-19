@@ -4,6 +4,12 @@ A one-page local dashboard for a home model fleet. It shows which models are up,
 
 Part of the [Kodros](https://kodros.ai) local AI stack.
 
+## On your hardware
+
+- Does: one page on a Linux machine that shows which models your inference hosts serve and how much GPU memory is free.
+- Needs: Python 3.11 and a browser. The dashboard machine needs no GPU. It reads your inference hosts over HTTP and SSH.
+- Stays on-prem: it listens on `127.0.0.1` only, probes loopback addresses or URLs you set, and keeps 7 days of samples in a local SQLite file. It makes no cloud calls.
+
 ## How it works
 
 ```mermaid
