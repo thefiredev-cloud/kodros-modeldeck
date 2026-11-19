@@ -4,6 +4,7 @@ import threading
 import unittest
 import urllib.error
 import urllib.request
+from datetime import UTC, datetime
 from pathlib import Path
 from unittest.mock import patch
 
@@ -13,6 +14,7 @@ from modeldeck.adapters import (
     models_from,
     parse_metrics,
     profile_rows,
+    stamp,
     swap_history,
 )
 from modeldeck.guard import GuardError, SwapGuard
@@ -37,6 +39,21 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual(value['status'], 'stale')
         self.assertIsNone(value['decode_tok_s'])
         self.assertEqual(fresh_telemetry({}, now=0)['status'], 'unavailable')
+
+    def test_naive_timestamp_is_utc_not_host_local(self):
+        # A telemetry file written without a zone is UTC. Reading it as local time shifted it by
+        # the host offset, so fresh data was reported stale and its live numbers were nulled.
+        now = datetime(2026, 11, 19, 6, 0, 30, tzinfo=UTC).timestamp()
+        value = fresh_telemetry({'updated_at': '2026-11-19T06:00:00', 'decode_tok_s': 61}, now=now)
+        self.assertTrue(value['fresh'])
+        self.assertEqual(value['decode_tok_s'], 61)
+        self.assertNotIn('status', value)
+        self.assertEqual(stamp('2026-11-19T06:00:00'), datetime(2026, 11, 19, 6, 0, 0, tzinfo=UTC).timestamp())
+
+    def test_mixed_naive_and_aware_history_keeps_the_measured_duration(self):
+        h = swap_history({'history': [{'profile': 'a', 'started_at': '2026-11-19T06:00:00',
+                                       'finished_at': '2026-11-19T06:03:32+00:00'}]})
+        self.assertEqual(h[0]['duration_s'], 212)
 
     def test_history_duration_is_measured_only(self):
         h = swap_history({'history': [{'profile': 'a', 'started_at': 100, 'finished_at': 312, 'gates': {'math': True}}, {'profile': 'b'}]})

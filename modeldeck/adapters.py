@@ -7,7 +7,7 @@ import subprocess
 import time
 import urllib.error
 import urllib.request
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
 OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}))
@@ -77,13 +77,19 @@ def parse_metrics(text):
             'generation_tokens': first('tensorfold:generation_tokens_total', 'vllm:generation_tokens_total', 'llamacpp:tokens_predicted_total')}
 
 
+def utc(value):
+    """Parse an ISO timestamp. A value without a zone is UTC, not the host's local time."""
+    parsed = datetime.fromisoformat(value)
+    return parsed.replace(tzinfo=UTC) if parsed.tzinfo is None else parsed
+
+
 def fresh_telemetry(data, now=None):
     now = time.time() if now is None else now
     if not isinstance(data, dict):
         data = {}
     out = dict(data)
     try:
-        age = now - datetime.fromisoformat(data['updated_at']).timestamp()
+        age = now - utc(data['updated_at']).timestamp()
         fresh = 0 <= age <= 180
     except (KeyError, ValueError, TypeError, AttributeError):
         fresh = False
@@ -119,7 +125,7 @@ def stamp(value):
     if n is not None:
         return n
     try:
-        return datetime.fromisoformat(value).timestamp()
+        return utc(value).timestamp()
     except (ValueError, AttributeError, TypeError):
         return None
 
