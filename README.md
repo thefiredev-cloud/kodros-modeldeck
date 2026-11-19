@@ -20,6 +20,8 @@ flowchart LR
   G -->|detached systemd unit| SW[swap-gate helper on cluster head]
 ```
 
+Static diagram: [docs/architecture.svg](docs/architecture.svg). Step-by-step build: [BUILD.md](BUILD.md).
+
 The collector reads each service over HTTP and SSH and stores samples in SQLite. Missing or old data shows as offline or stale, never as zero. A swap takes about 3.5 minutes of downtime, so the page makes you:
 
 1. Press Review swap. The server issues a 60-second, single-use ticket tied to the profile and current state.
